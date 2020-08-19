@@ -37,7 +37,7 @@ app.get("/campgrounds/new", function(req,res){
 
 app.post("/campgrounds", function(req, res){
     // res.send("You hit the post route");
-    camps.push({name: req.body.name, src: req.body.src})
+    campgrounds.push({name: req.body.name, src: req.body.src})
     res.redirect("/campgrounds");
 })
 
