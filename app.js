@@ -41,6 +41,12 @@ app.post("/campgrounds", function(req, res){
     res.redirect("/campgrounds");
 })
 
+//SHOW Route
+app.get("/campgrounds/:id", function(req, res){
+    res.render("show", {camp: campgrounds[req.params.id]});
+
+})
+
 app.listen(process.env.PORT || 3000, () => {
 	console.log('server listening on port 3000');
 });
