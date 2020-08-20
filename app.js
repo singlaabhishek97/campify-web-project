@@ -1,6 +1,17 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
+
+//Connect to MongoDB
+mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true, useUnifiedTopology: true});
+
+//Defining schema
+var campgroundSchema = new mongoose.Schema({
+    name: String,
+    src: String
+})
+var Campground = mongoose.model("Campground", campgroundSchema);
 
 //Parse incoming body requests - req.body
 app.use(bodyParser.urlencoded({extended: true}));
@@ -18,6 +29,24 @@ var campgrounds = [
         src: "https://i.imgur.com/P8T8Sti.jpg"
     }
 ]
+
+//Clear the DB first then add new camps
+Campground.deleteMany({}, function(err){
+    if(err){
+        console.log(err);
+    } else{
+        console.log("campgrounds removed");
+        campgrounds.forEach(function(seed){
+            Campground.create(seed, function(err, newcamp){
+                if(err){
+                    console.log(err);
+                } else{
+                    console.log("new camp created : " + newcamp);
+                }
+            })
+        })
+    }
+})
 
 app.get("/home", function(req, res){
     res.render("landing.ejs");
