@@ -9,7 +9,8 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true,
 //Defining schema
 var campgroundSchema = new mongoose.Schema({
     name: String,
-    src: String
+    src: String,
+    description: String
 })
 var Campground = mongoose.model("Campground", campgroundSchema);
 
@@ -22,11 +23,13 @@ app.set("view engine", "ejs");
 var campgrounds = [
     {
         name: "Solang Valley",
-        src: "https://i.imgur.com/ODDE4xD.jpg"
+        src: "https://i.imgur.com/ODDE4xD.jpg",
+        description: "Solang Valley in Manali attracts visitors from the far ends of the world"
     },
     {
         name: "Spiti Valley",
-        src: "https://i.imgur.com/P8T8Sti.jpg"
+        src: "https://i.imgur.com/P8T8Sti.jpg",
+        description: "Spiti Valley nestled in the Keylong district of Himachal Pradesh"
     }
 ]
 
