@@ -2,17 +2,10 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var Campground  = require("./models/campground");
 
 //Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true, useUnifiedTopology: true});
-
-//Defining schema
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    src: String,
-    description: String
-})
-var Campground = mongoose.model("Campground", campgroundSchema);
 
 //Parse incoming body requests - req.body
 app.use(bodyParser.urlencoded({extended: true}));
