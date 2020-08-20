@@ -55,25 +55,51 @@ app.get("/home", function(req, res){
 app.get("/", function(req, res){
     res.redirect("/home");
 })
+
+//Index route
 app.get("/campgrounds", function(req, res){
-    res.render("campgrounds.ejs", {camps: campgrounds});
+    Campground.find({},function(err, foundcamps){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("campgrounds", {camps: foundcamps});
+        }
+    })
 })
 
+//New Route
 app.get("/campgrounds/new", function(req,res){
     // res.send("Add new campground");
     res.render("new");
 })
 
+//Create Route
 app.post("/campgrounds", function(req, res){
     // res.send("You hit the post route");
-    campgrounds.push({name: req.body.name, src: req.body.src})
+    Campground.create({
+        name: req.body.name,
+        src: req.body.src,
+        description: req.body.description
+    }, function(err, camp){
+        if(err){
+            console.log(err);
+        } else{
+            console.log("we saved a campground");
+            console.log(camp);
+        }
+    })
     res.redirect("/campgrounds");
 })
 
 //SHOW Route
 app.get("/campgrounds/:id", function(req, res){
-    res.render("show", {camp: campgrounds[req.params.id]});
-
+    Campground.findById(req.params.id, function(err, foundcamp){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("show", {camp:foundcamp});
+        }
+    })
 })
 
 app.listen(process.env.PORT || 3000, () => {
