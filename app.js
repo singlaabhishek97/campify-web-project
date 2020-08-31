@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var Campground  = require("./models/campground");
 var seedDB      = require("./seeds");
+var Comment     = require("./models/comment");
 
 //Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true, useUnifiedTopology: true});
@@ -62,7 +63,8 @@ app.post("/campgrounds", function(req, res){
 
 //SHOW Route
 app.get("/campgrounds/:id", function(req, res){
-    Campground.findById(req.params.id, function(err, foundcamp){
+    //Populate method work as 'campground left join comments' as in SQL
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundcamp){
         if(err){
             console.log(err);
         } else{

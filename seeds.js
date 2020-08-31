@@ -1,5 +1,6 @@
 var mongoose    = require("mongoose");
 var Campground  = require("./models/campground");
+var Comment = require("./models/comment");
 
 var campgrounds = [
     {
@@ -27,6 +28,20 @@ function seedDB(){
                         console.log(err);
                     } else{
                         console.log("new camp created : " + newcamp);
+                        Comment.create(
+                            {
+                                text: "This is a sample comment for every camp",
+                                author: "Singla"
+                            }, function(err, newcomment){
+                                if(err){
+                                    console.log(err);
+                                } else{
+                                    newcamp.comments.push(newcomment);
+                                    newcamp.save();
+                                    console.log("created new comment");
+                                }
+                            }
+                        )
                     }
                 })
             })
