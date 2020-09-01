@@ -32,7 +32,7 @@ app.get("/campgrounds", function(req, res){
         if(err){
             console.log(err);
         } else{
-            res.render("campgrounds", {camps: foundcamps});
+            res.render("campgrounds/campgrounds", {camps: foundcamps});
         }
     })
 })
@@ -40,7 +40,7 @@ app.get("/campgrounds", function(req, res){
 //New Route
 app.get("/campgrounds/new", function(req,res){
     // res.send("Add new campground");
-    res.render("new");
+    res.render("campgrounds/new");
 })
 
 //Create Route
@@ -68,7 +68,7 @@ app.get("/campgrounds/:id", function(req, res){
         if(err){
             console.log(err);
         } else{
-            res.render("show", {camp:foundcamp});
+            res.render("campgrounds/show", {camp:foundcamp});
         }
     })
 })
