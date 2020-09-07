@@ -73,6 +73,41 @@ app.get("/campgrounds/:id", function(req, res){
     })
 })
 
+//=========================
+//    COMMENT ROUTES
+//=========================
+
+//New comment route
+app.get("/campgrounds/:id/comments/new", function(req, res){
+    Campground.findById(req.params.id, function(err, foundcamp){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("comments/new", {camp: foundcamp});
+        }
+    })
+})
+
+//Create Comment Route
+app.post("/campgrounds/:id/comments", function(req, res){
+    // res.send("You hit the post route");
+    Campground.findById(req.params.id, function(err, foundcamp){
+        if(err) {
+            console.log(err);
+        } else{
+            Comment.create(req.body.comment, function(err, newcomment){
+                if(err){
+                    console.log(err);
+                } else{
+                    foundcamp.comments.push(newcomment);
+                    foundcamp.save();
+                }
+            })
+        }
+        res.redirect("/campgrounds/"+foundcamp._id);
+    })
+})
+
 app.listen(process.env.PORT || 3000, () => {
 	console.log('server listening on port 3000');
 });
