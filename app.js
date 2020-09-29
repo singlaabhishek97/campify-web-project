@@ -93,7 +93,7 @@ app.get("/campgrounds/:id", function(req, res){
 //=========================
 
 //New comment route
-app.get("/campgrounds/:id/comments/new", function(req, res){
+app.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, foundcamp){
         if(err){
             console.log(err);
@@ -104,7 +104,7 @@ app.get("/campgrounds/:id/comments/new", function(req, res){
 })
 
 //Create Comment Route
-app.post("/campgrounds/:id/comments", function(req, res){
+app.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
     // res.send("You hit the post route");
     Campground.findById(req.params.id, function(err, foundcamp){
         if(err) {
@@ -159,6 +159,19 @@ app.post("/login", passport.authenticate("local",
         failureRedirect: "/login"
     }), function(req, res){
 });
+
+//LOGOUT route
+app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect("/campgrounds");
+ });
+ 
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 app.listen(process.env.PORT || 3000, () => {
 	console.log('server listening on port 3000');
