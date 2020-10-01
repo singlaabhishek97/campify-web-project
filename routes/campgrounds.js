@@ -30,6 +30,10 @@ router.post("", isLoggedIn, function(req, res){
     Campground.create({
         name: req.body.name,
         src: req.body.src,
+        author: {
+            id: req.user._id,
+            username: req.user.username
+        },
         description: req.body.description
     }, function(err, camp){
         if(err){
