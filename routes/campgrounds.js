@@ -58,6 +58,29 @@ router.get("/:id", function(req, res){
     })
 })
 
+//EDIT CAMP
+router.get("/:id/edit", function(req, res){
+    Campground.findById(req.params.id, function(err, foundcamp){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("campgrounds/edit", {camp:foundcamp});
+        }
+    })
+})
+
+//UPDATE ROUTE
+router.put("/:id", function(req, res){
+    Campground.findByIdAndUpdate(req.params.id, req.body.camp, function(err, updatedCamp){
+        if(err){
+            console.log(err);
+        } else{
+            console.log(updatedCamp);
+        }
+    })
+    res.redirect("/campgrounds/"+req.params.id);
+})
+
 //Middleware Functions
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){

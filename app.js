@@ -11,6 +11,7 @@ var LocalStrategy   = require("passport-local");
 var commentRoutes = require("./routes/comments");
 var campgroundRoutes = require("./routes/campgrounds");
 var indexRoutes = require("./routes/index");
+var methodOverride = require("method-override");
 
 //Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true, useUnifiedTopology: true});
@@ -35,7 +36,10 @@ app.use(passport.session());
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     next();
- });
+});
+
+//For method overriding (put=post)
+app.use(methodOverride("_method"));
 
 app.use("/campgrounds/:id/comments", commentRoutes);
 app.use("/campgrounds", campgroundRoutes);
