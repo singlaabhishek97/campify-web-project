@@ -30,8 +30,15 @@ router.post("/", isLoggedIn, function(req, res){
                 if(err){
                     console.log(err);
                 } else{
-                    foundcamp.comments.push(newcomment);
-                    foundcamp.save();
+                    //add username and id to comment	
+                    newcomment.author.id = req.user._id;	
+                    newcomment.author.username = req.user.username;	
+                    //save comment	
+                    newcomment.save();	
+                    foundcamp.comments.push(newcomment);	
+                    foundcamp.save();	
+                    console.log(newcomment);	
+                    // res.redirect('/campgrounds/' + foundcamp._id);	
                 }
             })
         }
