@@ -19,13 +19,13 @@ router.get("/campgrounds", function(req, res){
 })
 
 //New Route
-router.get("/campgrounds/new", function(req,res){
+router.get("/campgrounds/new", isLoggedIn, function(req,res){
     // res.send("Add new campground");
     res.render("campgrounds/new");
 })
 
 //Create Route
-router.post("/campgrounds", function(req, res){
+router.post("/campgrounds", isLoggedIn, function(req, res){
     // res.send("You hit the post route");
     Campground.create({
         name: req.body.name,
@@ -53,5 +53,13 @@ router.get("/campgrounds/:id", function(req, res){
         }
     })
 })
+
+//Middleware Functions
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;
