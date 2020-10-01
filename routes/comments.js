@@ -9,7 +9,7 @@ var Campground  = require("../models/campground");
 var Comment     = require("../models/comment");
 
 //New comment route
-router.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
+router.get("/new", isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, foundcamp){
         if(err){
             console.log(err);
@@ -20,7 +20,7 @@ router.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res){
 })
 
 //Create Comment Route
-router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
+router.post("/", isLoggedIn, function(req, res){
     // res.send("You hit the post route");
     Campground.findById(req.params.id, function(err, foundcamp){
         if(err) {

@@ -37,9 +37,9 @@ app.use(function(req, res, next){
     next();
  });
 
-app.use(commentRoutes);
-app.use(campgroundRoutes);
-app.use(indexRoutes);
+app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/campgrounds", campgroundRoutes);
+app.use("/", indexRoutes);
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());

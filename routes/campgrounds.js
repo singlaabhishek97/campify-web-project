@@ -8,7 +8,7 @@ var router  = express.Router({mergeParams: true});
 var Campground  = require("../models/campground");
 
 //Index route
-router.get("/campgrounds", function(req, res){
+router.get("", function(req, res){
     Campground.find({},function(err, foundcamps){
         if(err){
             console.log(err);
@@ -19,13 +19,13 @@ router.get("/campgrounds", function(req, res){
 })
 
 //New Route
-router.get("/campgrounds/new", isLoggedIn, function(req,res){
+router.get("/new", isLoggedIn, function(req,res){
     // res.send("Add new campground");
     res.render("campgrounds/new");
 })
 
 //Create Route
-router.post("/campgrounds", isLoggedIn, function(req, res){
+router.post("", isLoggedIn, function(req, res){
     // res.send("You hit the post route");
     Campground.create({
         name: req.body.name,
@@ -43,7 +43,7 @@ router.post("/campgrounds", isLoggedIn, function(req, res){
 })
 
 //SHOW Route
-router.get("/campgrounds/:id", function(req, res){
+router.get("/:id", function(req, res){
     //Populate method work as 'campground left join comments' as in SQL
     Campground.findById(req.params.id).populate("comments").exec(function(err, foundcamp){
         if(err){
