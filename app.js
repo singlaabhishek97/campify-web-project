@@ -1,12 +1,30 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
+var mysql = require("mysql");
+
+var connection = mysql.createConnection({
+    host : 'localhost',
+    user : 'root',
+    password: '<mysql root password>',
+    database : 'campify'
+})
 
 //Parse incoming body requests - req.body
 app.use(bodyParser.urlencoded({extended: true}));
 
 //Render the view from ejs
 app.set("view engine", "ejs");
+
+//CREATING Campground table (uncomment and run this once)
+// var createCampTable = 'CREATE TABLE Campground (name varchar(20), src varchar(200))';
+// connection.query(createCampTable, function(err, results, fields){
+//     if(err){
+//         console.log(err);
+//     } else{
+//         console.log('table creation query ran');
+//     }
+// })
 
 var campgrounds = [
     {
@@ -18,6 +36,23 @@ var campgrounds = [
         src: "https://i.imgur.com/P8T8Sti.jpg"
     }
 ]
+
+//Clear the DB first then add new camps
+connection.query('DELETE FROM Campground', function(err, result){
+    if(err){
+        throw err;
+    }
+});
+var insertCamps = 'INSERT INTO Campground set ?';
+campgrounds.forEach(function(item){
+    connection.query(insertCamps, item, function(err, results, fields){
+        if(err){
+            console.log(err);
+        } else{
+            console.log(results);
+        }
+    })
+})
 
 app.get("/home", function(req, res){
     res.render("landing.ejs");
