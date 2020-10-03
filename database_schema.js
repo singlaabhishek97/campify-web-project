@@ -16,23 +16,33 @@ function define_tables_schema(connection){
         }
     })
 
+    // CREATING User table
+	var createUserTable = 'CREATE TABLE User (username VARCHAR(30) PRIMARY KEY, password VARCHAR(30) NOT NULL)';
+    connection.query(createUserTable, function(err){
+        if(err){
+            console.log(err);
+        } else{
+            console.log('user table creation query ran');
+        }
+    })
+
     // CREATING Campground table
-	var createCampTable = 'CREATE TABLE Campground (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(20), src VARCHAR(200), description VARCHAR(400))';
+	var createCampTable = 'CREATE TABLE Campground (id INT PRIMARY KEY AUTO_INCREMENT, ownername VARCHAR(30), name VARCHAR(20), src VARCHAR(200), description VARCHAR(400), FOREIGN KEY(ownername) REFERENCES User(username))';
     connection.query(createCampTable, function(err, results, fields){
         if(err){
             console.log(err);
         } else{
-            console.log('table creation query ran');
+            console.log('campground table creation query ran');
         }
     })
 
     // CREATING Comment table
-	var createCommentTable = 'CREATE TABLE Comment (camp_id INT, text VARCHAR(200), author VARCHAR(30), FOREIGN KEY(camp_id) REFERENCES Campground(id))';
+	var createCommentTable = 'CREATE TABLE Comment (camp_id INT, text VARCHAR(200), author VARCHAR(30), FOREIGN KEY(camp_id) REFERENCES Campground(id), FOREIGN KEY(author) REFERENCES User(username))';
     connection.query(createCommentTable, function(err, results, fields){
         if(err){
             console.log(err);
         } else{
-            console.log('comment creation query ran');
+            console.log('comment table creation query ran');
         }
     })
 }
