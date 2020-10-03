@@ -3,12 +3,16 @@ var app = express();
 var bodyParser = require("body-parser");
 var mysql = require("mysql");
 var seedDB = require("./seeds");
+var define_tables_schema = require("./database_schema");
 
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
     password: '<mysql root password>'
 })
+
+//Define tables schema
+define_tables_schema(connection);
 
 //Initialising database
 seedDB(connection);
