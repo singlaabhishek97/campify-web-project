@@ -1,5 +1,10 @@
 <%- include("partials/header") %>
-    <h1><%=camp.name%></h1>
-    <img style="height:300px; width:300px" src=<%=camp.src%> alt=<%=camp.name%>>
-    <p><%=camp.description%></p>
+    <h1><%=camp[0].name%></h1>
+    <img style="height:300px; width:300px" src=<%=camp[0].src%> alt=<%=camp[0].name%>>
+    <p><%=camp[0].description%></p>
+    <% camp.forEach(function(comment){ %>
+        <p>
+            <strong><%= comment.author %></strong> - <%= comment.text %>
+        </p>
+    <% }) %>
 <%- include("partials/footer") %>

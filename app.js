@@ -69,12 +69,12 @@ app.post("/campgrounds", function(req, res){
 
 //SHOW Route
 app.get("/campgrounds/:id", function(req, res){
-    var query = 'SELECT * FROM Campground WHERE id = ' + req.params.id;
-    connection.query(query, function(err, foundcamp){
+    var query = 'SELECT * FROM Campground JOIN Comment ON Campground.id = Comment.camp_id WHERE id = ' + req.params.id
+    connection.query(query, function(err, foundcamprows){
         if(err){
             console.log(err);
         } else{
-            res.render("show", {camp:foundcamp[0]});
+            res.render("show", {camp:foundcamprows});
         }
     })
 })

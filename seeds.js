@@ -29,9 +29,9 @@ function seedDB(connection){
         }
     })
 
-    // CREATING Campground table (uncomment and run this once)
+    // CREATING Campground table
 	var createCampTable = 'CREATE TABLE Campground (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(20), src VARCHAR(200), description VARCHAR(400))';
-connection.query(createCampTable, function(err, results, fields){
+    connection.query(createCampTable, function(err, results, fields){
         if(err){
             console.log(err);
         } else{
@@ -39,12 +39,6 @@ connection.query(createCampTable, function(err, results, fields){
         }
     })
 
-    //Clear the DB first then add new camps
-    // connection.query('DELETE FROM Campground', function(err, result){
-    //     if(err){
-    //         throw err;
-    //     }
-    // });
     var insertCamps = 'INSERT INTO Campground set ?';
     campgrounds.forEach(function(item){
         connection.query(insertCamps, item, function(err, results, fields){
@@ -54,6 +48,38 @@ connection.query(createCampTable, function(err, results, fields){
                 console.log(results);
             }
         })
+    })
+
+    // CREATING Comment table
+	var createCommentTable = 'CREATE TABLE Comment (camp_id INT, text VARCHAR(200), author VARCHAR(30), FOREIGN KEY(camp_id) REFERENCES Campground(id))';
+    connection.query(createCommentTable, function(err, results, fields){
+        if(err){
+            console.log(err);
+        } else{
+            console.log('comment creation query ran');
+        }
+    })
+
+    //INSERTING Comments
+    connection.query('SELECT id FROM Campground', function(err, foundcamps){
+        if(err){
+            console.log(err);
+        } else{
+            foundcamps.forEach(function(item){
+                var newComment = {
+                    camp_id: item.id,
+                    text: "Sample comment",
+                    author: "Default User"
+                }
+                connection.query('INSERT INTO Comment SET ?', newComment, function(err, result){
+                    if(err){
+                        console.log(err);
+                    } else{
+                        console.log("new comment inserted");
+                    }
+                })
+            })
+        }
     })
 }
 
