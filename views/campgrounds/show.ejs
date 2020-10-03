@@ -1,4 +1,4 @@
-<%- include("partials/header") %>
+<%- include("../partials/header") %>
     <h1><%=camp[0].name%></h1>
     <img style="height:300px; width:300px" src=<%=camp[0].src%> alt=<%=camp[0].name%>>
     <p><%=camp[0].description%></p>
@@ -7,4 +7,4 @@
             <strong><%= comment.author %></strong> - <%= comment.text %>
         </p>
     <% }) %>
-<%- include("partials/footer") %>
+<%- include("../partials/footer") %>

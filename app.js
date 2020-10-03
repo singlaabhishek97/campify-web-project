@@ -23,8 +23,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 //Render the view from ejs
 app.set("view engine", "ejs");
 
-
-
 app.get("/home", function(req, res){
     res.render("landing.ejs");
 })
@@ -39,8 +37,8 @@ app.get("/campgrounds", function(req, res){
         if(err){
             console.log(err);
         } else{
-            console.log(foundCamps);
-            res.render("campgrounds.ejs", {camps: foundCamps});
+            //console.log(foundCamps);
+            res.render("campgrounds/campgrounds", {camps: foundCamps});
         }
     })
 })
@@ -48,9 +46,8 @@ app.get("/campgrounds", function(req, res){
 //New Route
 app.get("/campgrounds/new", function(req,res){
     // res.send("Add new campground");
-    res.render("new");
+    res.render("campgrounds/new");
 })
-
 
 //CREATE Route
 app.post("/campgrounds", function(req, res){
@@ -78,7 +75,7 @@ app.get("/campgrounds/:id", function(req, res){
         if(err){
             console.log(err);
         } else{
-            res.render("show", {camp:foundcamprows});
+            res.render("campgrounds/show", {camp:foundcamprows});
         }
     })
 })
