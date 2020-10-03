@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 //CREATING Campground table (uncomment and run this once)
-// var createCampTable = 'CREATE TABLE Campground (name varchar(20), src varchar(200))';
+// 	var createCampTable = 'CREATE TABLE Campground (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(20), src VARCHAR(200))';
 // connection.query(createCampTable, function(err, results, fields){
 //     if(err){
 //         console.log(err);
