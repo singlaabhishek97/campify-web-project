@@ -61,25 +61,54 @@ app.get("/home", function(req, res){
 app.get("/", function(req, res){
     res.redirect("/home");
 })
+
+//INDEX Route
 app.get("/campgrounds", function(req, res){
-    res.render("campgrounds.ejs", {camps: campgrounds});
+    connection.query('select * from campground', function(err, foundCamps){
+        if(err){
+            console.log(err);
+        } else{
+            console.log(foundCamps);
+            res.render("campgrounds.ejs", {camps: foundCamps});
+        }
+    })
 })
 
+//New Route
 app.get("/campgrounds/new", function(req,res){
     // res.send("Add new campground");
     res.render("new");
 })
 
+
+//CREATE Route
 app.post("/campgrounds", function(req, res){
     // res.send("You hit the post route");
-    campgrounds.push({name: req.body.name, src: req.body.src})
+    // campgrounds.push({name: req.body.name, src: req.body.src})
+    var newCamp = {
+        name: req.body.name,
+        src: req.body.src
+    }
+    connection.query('INSERT INTO Campground SET ?', newCamp, function(err, result){
+        if(err) {
+            console.log(err);
+        } else{
+            console.log(result);
+        }
+    })
     res.redirect("/campgrounds");
 })
 
 //SHOW Route
 app.get("/campgrounds/:id", function(req, res){
-    res.render("show", {camp: campgrounds[req.params.id]});
-
+    var query = 'SELECT * FROM Campground WHERE id = ' + req.params.id;
+    connection.query(query, function(err, foundcamp){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("show", {camp:foundcamp[0]});
+        }
+    })
 })
 
 app.listen(process.env.PORT || 3000, () => {
