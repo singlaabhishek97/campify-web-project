@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 //CREATING Campground table (uncomment and run this once)
-// 	var createCampTable = 'CREATE TABLE Campground (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(20), src VARCHAR(200))';
+// 	var createCampTable = 'CREATE TABLE Campground (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(20), src VARCHAR(200), description VARCHAR(400))';
 // connection.query(createCampTable, function(err, results, fields){
 //     if(err){
 //         console.log(err);
@@ -29,11 +29,13 @@ app.set("view engine", "ejs");
 var campgrounds = [
     {
         name: "Solang Valley",
-        src: "https://i.imgur.com/ODDE4xD.jpg"
+        src: "https://i.imgur.com/ODDE4xD.jpg",
+        description: "Solang Valley in Manali attracts visitors from the far ends of the world"
     },
     {
         name: "Spiti Valley",
-        src: "https://i.imgur.com/P8T8Sti.jpg"
+        src: "https://i.imgur.com/P8T8Sti.jpg",
+        description: "Spiti Valley nestled in the Keylong district of Himachal Pradesh"
     }
 ]
 
@@ -87,7 +89,8 @@ app.post("/campgrounds", function(req, res){
     // campgrounds.push({name: req.body.name, src: req.body.src})
     var newCamp = {
         name: req.body.name,
-        src: req.body.src
+        src: req.body.src,
+        description: req.body.description
     }
     connection.query('INSERT INTO Campground SET ?', newCamp, function(err, result){
         if(err) {
